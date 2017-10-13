@@ -1,6 +1,6 @@
 ﻿namespace BowlingKataMicroObjectsRefactor
 {
-    internal interface IFrameScore
+    public interface IFrameScore
     {
         int Score(IPinsDown pinsDown, int pinsIndex);
     }
