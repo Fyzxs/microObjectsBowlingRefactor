@@ -1,27 +1,14 @@
 ﻿namespace BowlingKataMicroObjectsRefactor
 {
-    public class PinsDown : IPinsDown
-    {
-        private readonly int[] _rolls = new int[21];
-        private int _ptr;
-        public void Roll(int pins) => _rolls[_ptr++] = pins;
-        public int PinsDownAt(int pinsIndex) => _rolls[pinsIndex];
-    }
-
-    public interface IPinsDown
-    {
-        void Roll(int pins);
-        int PinsDownAt(int pinsIndex);
-    }
 
     public class Game
     {
         private readonly IPinsDown _pinsDown;
 
-        public void Roll(int pins) => _pinsDown.Roll(pins);
-
         public Game() : this(new PinsDown()) { }
         public Game(IPinsDown pinsDown) => _pinsDown = pinsDown;
+
+        public void Roll(int pins) => _pinsDown.Roll(pins);
 
         public int Score()
         {
