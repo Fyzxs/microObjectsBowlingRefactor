@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BowlingGameTest.cs" />
+    <Compile Include="FrameState.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="IndexAdjustment.cs" />
     <Compile Include="PinsDown.cs" />
