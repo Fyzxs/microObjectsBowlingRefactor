@@ -1,5 +1,14 @@
 ﻿namespace BowlingKataMicroObjectsRefactor
 {
+    public class IsStrike : IFrameType
+    {
+        public bool IsType(IPinsDown pinsDown, int pinsIndex) => pinsDown.PinsDownAt(pinsIndex) == 10;
+    }
+
+    public interface IFrameType
+    {
+        bool IsType(IPinsDown pinsDown, int pinsIndex);
+    }
 
     public class Game
     {
@@ -16,7 +25,7 @@
             int pinsIndex = 0;
             for (int frame = 0; frame < 10; frame++)
             {
-                if (IsStrike(pinsIndex))
+                if (new IsStrike().IsType(_pinsDown, pinsIndex))
                 {
                     score += new StrikeScore().Score(_pinsDown, pinsIndex);
                     pinsIndex += new StrikeIndexAdjustment().Adjustment();
