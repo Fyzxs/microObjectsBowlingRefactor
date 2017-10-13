@@ -16,9 +16,12 @@
 
     public class Game
     {
-        private readonly IPinsDown _pinsDown = new PinsDown();
+        private readonly IPinsDown _pinsDown;
 
         public void Roll(int pins) => _pinsDown.Roll(pins);
+
+        public Game() : this(new PinsDown()) { }
+        public Game(IPinsDown pinsDown) => _pinsDown = pinsDown;
 
         public int Score()
         {
