@@ -17,25 +17,21 @@
             IFrameState frameState = new FrameState(0, 0);
             for (int frame = 0; frame < 10; frame++)
             {
+                frameState = frameState.Score(_pinsDown, new IsStrike(), new StrikeScore(), new StrikeIndexAdjustment());
+
                 if (new IsStrike().IsType(_pinsDown, pinsIndex))
                 {
-                    frameState = frameState.Score(_pinsDown, new StrikeScore(), new StrikeIndexAdjustment());
                     pinsIndex += new StrikeIndexAdjustment().Adjustment();
                     continue;
                 }
+                frameState = frameState.Score(_pinsDown, new IsSpare(), new SpareScore(), new SpareIndexAdjustment());
 
                 if (new IsSpare().IsType(_pinsDown, pinsIndex))
                 {
-                    frameState = frameState.Score(_pinsDown, new SpareScore(), new SpareIndexAdjustment());
                     pinsIndex += new SpareIndexAdjustment().Adjustment();
                     continue;
                 }
-
-                if (new IsDefault().IsType(_pinsDown, pinsIndex))
-                {
-                    frameState = frameState.Score(_pinsDown, new DefaultScore(), new DefaultIndexAdjustment());
-                    pinsIndex += new DefaultIndexAdjustment().Adjustment();
-                }
+                frameState = frameState.Score(_pinsDown, new IsDefault(), new DefaultScore(), new DefaultIndexAdjustment());
             }
             return score + frameState.Score();
         }
