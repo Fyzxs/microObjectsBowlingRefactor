@@ -26,14 +26,14 @@
 
                 if (new IsSpare().IsType(_pinsDown, pinsIndex))
                 {
-                    score += new SpareScore().Score(_pinsDown, pinsIndex);
+                    frameState = frameState.Score(_pinsDown, new SpareScore(), new SpareIndexAdjustment());
                     pinsIndex += new SpareIndexAdjustment().Adjustment();
                     continue;
                 }
 
                 if (new IsDefault().IsType(_pinsDown, pinsIndex))
                 {
-                    score += new DefaultScore().Score(_pinsDown, pinsIndex);
+                    frameState = frameState.Score(_pinsDown, new DefaultScore(), new DefaultIndexAdjustment());
                     pinsIndex += new DefaultIndexAdjustment().Adjustment();
                 }
             }
