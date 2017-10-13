@@ -57,7 +57,7 @@
     <Compile Include="PinsDown.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScoreType.cs" />
-    <Compile Include="FrameScore.cs" />
+    <Compile Include="TypeScore.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

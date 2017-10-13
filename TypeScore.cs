@@ -1,19 +1,19 @@
 ﻿namespace BowlingKataMicroObjectsRefactor
 {
-    public interface IFrameScore
+    public interface ITypeScore
     {
         int Score(IPinsDown pinsDown, int pinsIndex);
     }
 
-    public class StrikeScore : IFrameScore
+    public class StrikeScore : ITypeScore
     {
         public int Score(IPinsDown pinsDown, int pinsIndex) => 10 + pinsDown.PinsDownAt(pinsIndex + 1) + pinsDown.PinsDownAt(pinsIndex + 2);
     }
-    public class SpareScore : IFrameScore
+    public class SpareScore : ITypeScore
     {
         public int Score(IPinsDown pinsDown, int pinsIndex) => 10 + pinsDown.PinsDownAt(pinsIndex + 2);
     }
-    public class DefaultScore : IFrameScore
+    public class DefaultScore : ITypeScore
     {
         public int Score(IPinsDown pinsDown, int pinsIndex) => pinsDown.PinsDownAt(pinsIndex) + pinsDown.PinsDownAt(pinsIndex + 1);
     }
