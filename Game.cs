@@ -25,12 +25,13 @@
                 if (IsSpare(pinsIndex))
                 {
                     score += SpareScore(pinsIndex);
+                    pinsIndex += 2;
                 }
                 else
                 {
                     score += RegularScore(pinsIndex);
+                    pinsIndex += 2;
                 }
-                pinsIndex += 2;
             }
             return score;
         }
