@@ -1,5 +1,14 @@
 ﻿namespace BowlingKataMicroObjectsRefactor
 {
+    public class StrikeIndexAdjustment : IIndexAdjustment
+    {
+        public int Adjustment() => 1;
+    }
+
+    public interface IIndexAdjustment
+    {
+        int Adjustment();
+    }
 
     public class Game
     {
@@ -19,7 +28,7 @@
                 if (IsStrike(pinsIndex))
                 {
                     score += StrikeScore(pinsIndex);
-                    pinsIndex += 1;
+                    pinsIndex += new StrikeIndexAdjustment().Adjustment();
                     continue;
                 }
                 if (IsSpare(pinsIndex))
