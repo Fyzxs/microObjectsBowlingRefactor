@@ -4,6 +4,14 @@
     {
         public int Score(IPinsDown pinsDown, int pinsIndex) => 10 + pinsDown.PinsDownAt(pinsIndex + 1) + pinsDown.PinsDownAt(pinsIndex + 2);
     }
+    public class SpareScore : IStrikeScore
+    {
+        public int Score(IPinsDown pinsDown, int pinsIndex) => 10 + pinsDown.PinsDownAt(pinsIndex + 2);
+    }
+    public class DefaultScore : IStrikeScore
+    {
+        public int Score(IPinsDown pinsDown, int pinsIndex) => pinsDown.PinsDownAt(pinsIndex) + pinsDown.PinsDownAt(pinsIndex + 1);
+    }
 
     internal interface IStrikeScore { }
 
@@ -30,12 +38,12 @@
                 }
                 if (IsSpare(pinsIndex))
                 {
-                    score += SpareScore(pinsIndex);
+                    score += new SpareScore().Score(_pinsDown, pinsIndex);
                     pinsIndex += new SpareIndexAdjustment().Adjustment();
                 }
                 else
                 {
-                    score += RegularScore(pinsIndex);
+                    score += new DefaultScore().Score(_pinsDown, pinsIndex);
                     pinsIndex += new DefaultIndexAdjustment().Adjustment();
                 }
             }
