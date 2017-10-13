@@ -1,5 +1,12 @@
 ﻿namespace BowlingKataMicroObjectsRefactor
 {
+    public class StrikeScore : IStrikeScore
+    {
+        public int Score(IPinsDown pinsDown, int pinsIndex) => 10 + pinsDown.PinsDownAt(pinsIndex + 1) + pinsDown.PinsDownAt(pinsIndex + 2);
+    }
+
+    internal interface IStrikeScore { }
+
     public class Game
     {
         private readonly IPinsDown _pinsDown;
@@ -17,7 +24,7 @@
             {
                 if (IsStrike(pinsIndex))
                 {
-                    score += StrikeScore(pinsIndex);
+                    score += new StrikeScore().Score(_pinsDown, pinsIndex);
                     pinsIndex += new StrikeIndexAdjustment().Adjustment();
                     continue;
                 }
