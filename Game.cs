@@ -4,6 +4,14 @@
     {
         public int Adjustment() => 1;
     }
+    public class SpareIndexAdjustment : IIndexAdjustment
+    {
+        public int Adjustment() => 2;
+    }
+    public class DefaultIndexAdjustment : IIndexAdjustment
+    {
+        public int Adjustment() => 2;
+    }
 
     public interface IIndexAdjustment
     {
@@ -34,12 +42,12 @@
                 if (IsSpare(pinsIndex))
                 {
                     score += SpareScore(pinsIndex);
-                    pinsIndex += 2;
+                    pinsIndex += new SpareIndexAdjustment().Adjustment();
                 }
                 else
                 {
                     score += RegularScore(pinsIndex);
-                    pinsIndex += 2;
+                    pinsIndex += new DefaultIndexAdjustment().Adjustment();
                 }
             }
             return score;
