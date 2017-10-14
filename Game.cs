@@ -14,14 +14,14 @@
             _typeScore = typeScore;
             _indexAdjustment = indexAdjustment;
         }
-        public bool IsType(IPinsDown pinsDown, int pinsIndex) => _frameType.IsType(pinsDown, pinsIndex);
+        public bool ShouldScore(IPinsDown pinsDown, int pinsIndex) => _frameType.IsType(pinsDown, pinsIndex);
         public int Score(IPinsDown pinsDown, int pinsIndex) => _typeScore.Score(pinsDown, pinsIndex);
         public int Adjustment() => _indexAdjustment.Adjustment();
     }
 
     public interface IFrame
     {
-        bool IsType(IPinsDown pinsDown, int pinsIndex);
+        bool ShouldScore(IPinsDown pinsDown, int pinsIndex);
         int Score(IPinsDown pinsDown, int pinsIndex);
         int Adjustment();
     }
@@ -38,10 +38,10 @@
         public int Score()
         {
             int pinsIndex = 0;
-            IFrameState frameState = new FrameState(0, 0);
+            IFrameState frameState = new FrameState(_pinsDown, 0, 0);
             for (int frame = 0; frame < 10; frame++)
             {
-                frameState = frameState.Score(_pinsDown, new StrikeFrame());
+                frameState = frameState.Score(new StrikeFrame());
                 if (new IsStrike().IsType(_pinsDown, pinsIndex))
                 {
                     pinsIndex += new StrikeIndexAdjustment().Adjustment();
