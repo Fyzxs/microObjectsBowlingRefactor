@@ -1,10 +1,11 @@
-﻿namespace BowlingKataMicroObjectsRefactor
+﻿using System.Linq;
+
+namespace BowlingKataMicroObjectsRefactor
 {
     public interface IFrameState
     {
-        IFrameState Score(IPinsDown pinsDown, IFrameType frameType, ITypeScore typeScore, IIndexAdjustment indexAdjustment);
         int Score();
-        IFrameState Score(IFrame frame);
+        IFrameState ScoreFrame();
     }
 
     public class FrameState : IFrameState
@@ -12,25 +13,30 @@
         private readonly IPinsDown _pinsDown;
         private readonly int _score;
         private readonly int _pinsIndex;
+        private readonly IFrame[] _frames;
 
         public FrameState(IPinsDown pinsDown, int score, int pinsIndex)
+            : this(pinsDown, score, pinsIndex, new StrikeFrame(), new SpareFrame(), new DefaultFrame())
+        { }
+
+        private FrameState(IPinsDown pinsDown, int score, int pinsIndex, params IFrame[] frames)
         {
             _pinsDown = pinsDown;
             _score = score;
             _pinsIndex = pinsIndex;
+            _frames = frames;
         }
 
-        public IFrameState Score(IPinsDown pinsDown, IFrameType frameType, ITypeScore typeScore, IIndexAdjustment indexAdjustment)
+        public IFrameState ScoreFrame()
         {
-            if (frameType.IsType(pinsDown, _pinsIndex)) return new FrameState(_pinsDown, Score(pinsDown, typeScore), PinsIndex(indexAdjustment));
-            return this;
+            for (int idx = 0; idx < _frames.Length - 1; idx++)
+            {
+                if (_frames[idx].ShouldScore(_pinsDown, _pinsIndex)) return UpdatedFrameSate(_frames[idx]);
+            }
+            return UpdatedFrameSate(_frames.Last());
         }
 
         public int Score() => _score;
-        public IFrameState Score(IFrame frame) => frame.ShouldScore(_pinsDown, _pinsIndex) ? UpdatedFrameSate(frame) : this;
-
-        private int PinsIndex(IIndexAdjustment indexAdjustment) => _pinsIndex + indexAdjustment.Adjustment();
-        private int Score(IPinsDown pinsDown, ITypeScore typeScore) => _score + typeScore.Score(pinsDown, _pinsIndex);
 
         private FrameState UpdatedFrameSate(IFrame frame) => new FrameState(_pinsDown, UpdatedScore(frame), UpdatedIndex(frame));
         private int UpdatedIndex(IFrame frameType) => _pinsIndex + frameType.Adjustment();
