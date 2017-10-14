@@ -2,7 +2,7 @@
 {
     public interface IFrameState
     {
-        IFrameState Score(IPinsDown pinsDown, IScoreType scoreType, ITypeScore typeScore, IIndexAdjustment indexAdjustment);
+        IFrameState Score(IPinsDown pinsDown, IFrameType frameType, ITypeScore typeScore, IIndexAdjustment indexAdjustment);
         int Score();
     }
 
@@ -17,9 +17,9 @@
             _pinsIndex = pinsIndex;
         }
 
-        public IFrameState Score(IPinsDown pinsDown, IScoreType scoreType, ITypeScore typeScore, IIndexAdjustment indexAdjustment)
+        public IFrameState Score(IPinsDown pinsDown, IFrameType frameType, ITypeScore typeScore, IIndexAdjustment indexAdjustment)
         {
-            if (scoreType.IsType(pinsDown, _pinsIndex)) return new FrameState(Score(pinsDown, typeScore), PinsIndex(indexAdjustment));
+            if (frameType.IsType(pinsDown, _pinsIndex)) return new FrameState(Score(pinsDown, typeScore), PinsIndex(indexAdjustment));
             return this;
         }
 
