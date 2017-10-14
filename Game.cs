@@ -1,5 +1,31 @@
 ﻿namespace BowlingKataMicroObjectsRefactor
 {
+    public class StrikeFrame : IFrame
+    {
+        private readonly IFrameType _frameType;
+        private readonly ITypeScore _typeScore;
+        private readonly IIndexAdjustment _indexAdjustment;
+
+        public StrikeFrame() : this(new IsStrike(), new StrikeScore(), new StrikeIndexAdjustment()) { }
+
+        private StrikeFrame(IFrameType frameType, ITypeScore typeScore, IIndexAdjustment indexAdjustment)
+        {
+            _frameType = frameType;
+            _typeScore = typeScore;
+            _indexAdjustment = indexAdjustment;
+        }
+        public bool IsType(IPinsDown pinsDown, int pinsIndex) => _frameType.IsType(pinsDown, pinsIndex);
+        public int Score(IPinsDown pinsDown, int pinsIndex) => _typeScore.Score(pinsDown, pinsIndex);
+        public int Adjustment() => _indexAdjustment.Adjustment();
+    }
+
+    public interface IFrame
+    {
+        bool IsType(IPinsDown pinsDown, int pinsIndex);
+        int Score(IPinsDown pinsDown, int pinsIndex);
+        int Adjustment();
+    }
+
     public class Game
     {
         private readonly IPinsDown _pinsDown;
@@ -15,7 +41,7 @@
             IFrameState frameState = new FrameState(0, 0);
             for (int frame = 0; frame < 10; frame++)
             {
-                frameState = frameState.Score(_pinsDown, new IsStrike(), new StrikeScore(), new StrikeIndexAdjustment());
+                frameState = frameState.Score(_pinsDown, new StrikeFrame());
                 if (new IsStrike().IsType(_pinsDown, pinsIndex))
                 {
                     pinsIndex += new StrikeIndexAdjustment().Adjustment();

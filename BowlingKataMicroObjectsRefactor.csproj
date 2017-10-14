@@ -56,7 +56,7 @@
     <Compile Include="IndexAdjustment.cs" />
     <Compile Include="PinsDown.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScoreType.cs" />
+    <Compile Include="FrameType.cs" />
     <Compile Include="TypeScore.cs" />
   </ItemGroup>
   <Choose>
