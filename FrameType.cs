@@ -12,8 +12,4 @@
     {
         public bool IsType(IPinsDown pinsDown, int pinsIndex) => pinsDown.PinsDownAt(pinsIndex) + pinsDown.PinsDownAt(pinsIndex + 1) == 10;
     }
-    public class IsDefault : IFrameType
-    {
-        public bool IsType(IPinsDown pinsDown, int pinsIndex) => pinsDown.PinsDownAt(pinsIndex) + pinsDown.PinsDownAt(pinsIndex + 1) < 10;
-    }
 }

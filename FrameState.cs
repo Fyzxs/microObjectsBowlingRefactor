@@ -25,12 +25,12 @@
             _scoreStrategy = scoreStrategy;
         }
 
-        public IFrameState ScoreFrame() => UpdatedFrameSate(_scoreStrategy.Select(_pinsDown, _pinsIndex));
+        public IFrameState ScoreFrame() => UpdatedFrameState(_scoreStrategy.Select(_pinsDown, _pinsIndex));
 
         public int Score() => _score;
 
-        private FrameState UpdatedFrameSate(IFrame frame) => new FrameState(_pinsDown, UpdatedScore(frame), UpdatedIndex(frame));
-        private int UpdatedIndex(IFrame frameType) => _pinsIndex + frameType.Adjustment();
-        private int UpdatedScore(IFrame frameType) => _score + frameType.Score(_pinsDown, _pinsIndex);
+        private FrameState UpdatedFrameState(IFrameUpdate frameUpdate) => new FrameState(_pinsDown, UpdatedScore(frameUpdate), UpdatedIndex(frameUpdate));
+        private int UpdatedIndex(IFrameUpdate frameUpdateType) => _pinsIndex + frameUpdateType.Adjustment();
+        private int UpdatedScore(IFrameUpdate frameUpdateType) => _score + frameUpdateType.Score(_pinsDown, _pinsIndex);
     }
 }

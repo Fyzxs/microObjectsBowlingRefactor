@@ -2,7 +2,7 @@
 {
     public interface IScoreStrategy
     {
-        IFrame Select(IPinsDown pinsDown, int pinsIndex);
+        IFrameUpdate Select(IPinsDown pinsDown, int pinsIndex);
     }
     public class ScoreStrategy : IScoreStrategy
     {
@@ -12,7 +12,7 @@
 
         private ScoreStrategy(IScoreStrategy scoreStrategy) => _scoreStrategy = scoreStrategy;
 
-        public IFrame Select(IPinsDown pinsDown, int pinsIndex) => _scoreStrategy.Select(pinsDown, pinsIndex);
+        public IFrameUpdate Select(IPinsDown pinsDown, int pinsIndex) => _scoreStrategy.Select(pinsDown, pinsIndex);
     }
 
     public class StrikeStrategy : IScoreStrategy
@@ -29,10 +29,10 @@
             _frameType = frameType;
         }
 
-        public IFrame Select(IPinsDown pinsDown, int pinsIndex)
+        public IFrameUpdate Select(IPinsDown pinsDown, int pinsIndex)
         {
             if (!_frameType.IsType(pinsDown, pinsIndex)) return _next.Select(pinsDown, pinsIndex);
-            return new Frame(new StrikeScore(), new StrikeIndexAdjustment());
+            return new FrameUpdate(new StrikeScore(), new StrikeIndexAdjustment());
         }
     }
     public class SpareStrategy : IScoreStrategy
@@ -49,14 +49,14 @@
             _frameType = frameType;
         }
 
-        public IFrame Select(IPinsDown pinsDown, int pinsIndex)
+        public IFrameUpdate Select(IPinsDown pinsDown, int pinsIndex)
         {
             if (!_frameType.IsType(pinsDown, pinsIndex)) return _next.Select(pinsDown, pinsIndex);
-            return new Frame(new SpareScore(), new SpareIndexAdjustment());
+            return new FrameUpdate(new SpareScore(), new SpareIndexAdjustment());
         }
     }
     public class DefaultStrategy : IScoreStrategy
     {
-        public IFrame Select(IPinsDown pinsDown, int pinsIndex) => new Frame(new DefaultScore(), new DefaultIndexAdjustment());
+        public IFrameUpdate Select(IPinsDown pinsDown, int pinsIndex) => new FrameUpdate(new DefaultScore(), new DefaultIndexAdjustment());
     }
 }
