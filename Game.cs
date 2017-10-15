@@ -1,6 +1,11 @@
 ﻿namespace BowlingKataMicroObjectsRefactor
 {
-    public class Game
+    public interface IGame
+    {
+        void Roll(int pins);
+        int Score();
+    }
+    public class Game : IGame
     {
         private readonly IPinsDown _pinsDown;
 
@@ -19,4 +24,5 @@
             return frameState.Score();
         }
     }
+
 }
