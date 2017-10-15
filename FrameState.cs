@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace BowlingKataMicroObjectsRefactor
+﻿namespace BowlingKataMicroObjectsRefactor
 {
     public interface IFrameState
     {
@@ -13,28 +11,21 @@ namespace BowlingKataMicroObjectsRefactor
         private readonly IPinsDown _pinsDown;
         private readonly int _score;
         private readonly int _pinsIndex;
-        private readonly IFrame[] _frames;
+        private readonly IScoreStrategy _scoreStrategy;
 
         public FrameState(IPinsDown pinsDown, int score, int pinsIndex)
-            : this(pinsDown, score, pinsIndex, new StrikeFrame(), new SpareFrame(), new DefaultFrame())
+            : this(pinsDown, score, pinsIndex, new ScoreStrategy())
         { }
 
-        private FrameState(IPinsDown pinsDown, int score, int pinsIndex, params IFrame[] frames)
+        private FrameState(IPinsDown pinsDown, int score, int pinsIndex, IScoreStrategy scoreStrategy)
         {
             _pinsDown = pinsDown;
             _score = score;
             _pinsIndex = pinsIndex;
-            _frames = frames;
+            _scoreStrategy = scoreStrategy;
         }
 
-        public IFrameState ScoreFrame()
-        {
-            for (int idx = 0; idx < _frames.Length - 1; idx++)
-            {
-                if (_frames[idx].ShouldScore(_pinsDown, _pinsIndex)) return UpdatedFrameSate(_frames[idx]);
-            }
-            return UpdatedFrameSate(_frames.Last());
-        }
+        public IFrameState ScoreFrame() => UpdatedFrameSate(_scoreStrategy.Select(_pinsDown, _pinsIndex));
 
         public int Score() => _score;
 

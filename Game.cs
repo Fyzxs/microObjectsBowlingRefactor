@@ -1,63 +1,23 @@
 ﻿namespace BowlingKataMicroObjectsRefactor
 {
-    public class StrikeFrame : IFrame
+
+
+    public class Frame : IFrame
     {
-        private readonly IFrameType _frameType;
         private readonly ITypeScore _typeScore;
         private readonly IIndexAdjustment _indexAdjustment;
 
-        public StrikeFrame() : this(new IsStrike(), new StrikeScore(), new StrikeIndexAdjustment()) { }
-
-        private StrikeFrame(IFrameType frameType, ITypeScore typeScore, IIndexAdjustment indexAdjustment)
+        public Frame(ITypeScore typeScore, IIndexAdjustment indexAdjustment)
         {
-            _frameType = frameType;
             _typeScore = typeScore;
             _indexAdjustment = indexAdjustment;
         }
-        public bool ShouldScore(IPinsDown pinsDown, int pinsIndex) => _frameType.IsType(pinsDown, pinsIndex);
-        public int Score(IPinsDown pinsDown, int pinsIndex) => _typeScore.Score(pinsDown, pinsIndex);
-        public int Adjustment() => _indexAdjustment.Adjustment();
-    }
-    public class SpareFrame : IFrame
-    {
-        private readonly IFrameType _frameType;
-        private readonly ITypeScore _typeScore;
-        private readonly IIndexAdjustment _indexAdjustment;
-
-        public SpareFrame() : this(new IsSpare(), new SpareScore(), new SpareIndexAdjustment()) { }
-
-        private SpareFrame(IFrameType frameType, ITypeScore typeScore, IIndexAdjustment indexAdjustment)
-        {
-            _frameType = frameType;
-            _typeScore = typeScore;
-            _indexAdjustment = indexAdjustment;
-        }
-        public bool ShouldScore(IPinsDown pinsDown, int pinsIndex) => _frameType.IsType(pinsDown, pinsIndex);
-        public int Score(IPinsDown pinsDown, int pinsIndex) => _typeScore.Score(pinsDown, pinsIndex);
-        public int Adjustment() => _indexAdjustment.Adjustment();
-    }
-    public class DefaultFrame : IFrame
-    {
-        private readonly IFrameType _frameType;
-        private readonly ITypeScore _typeScore;
-        private readonly IIndexAdjustment _indexAdjustment;
-
-        public DefaultFrame() : this(new IsDefault(), new DefaultScore(), new DefaultIndexAdjustment()) { }
-
-        private DefaultFrame(IFrameType frameType, ITypeScore typeScore, IIndexAdjustment indexAdjustment)
-        {
-            _frameType = frameType;
-            _typeScore = typeScore;
-            _indexAdjustment = indexAdjustment;
-        }
-        public bool ShouldScore(IPinsDown pinsDown, int pinsIndex) => _frameType.IsType(pinsDown, pinsIndex);
         public int Score(IPinsDown pinsDown, int pinsIndex) => _typeScore.Score(pinsDown, pinsIndex);
         public int Adjustment() => _indexAdjustment.Adjustment();
     }
 
     public interface IFrame
     {
-        bool ShouldScore(IPinsDown pinsDown, int pinsIndex);
         int Score(IPinsDown pinsDown, int pinsIndex);
         int Adjustment();
     }
